@@ -10,9 +10,10 @@ class CoinInfo extends Component {
     cc
       .priceFull([coin], ['USD', 'EUR', 'GBP', 'CNY'])
       .then(prices => {
-        console.log(prices[coin], ' her er þettatata');
+        let coinsInfo = prices;
+        let coinsInfoB = Object.keys(prices).map(key => prices[key]);
         this.setState({
-          fullPrice: prices,
+          fullPrice: coinsInfoB,
         });
       })
       .catch(console.error);
@@ -23,7 +24,7 @@ class CoinInfo extends Component {
     super(props);
     this.state = {
       coin: '',
-      fullPrice: {},
+      fullPrice: [],
       priceCoin: '',
       initialCurrency: 'USD',
     };
@@ -48,18 +49,27 @@ class CoinInfo extends Component {
   }
 
   render() {
-    console.log(this.state.priceFull !== {}, ' her er þettatatatatatatatatats');
-    console.log(this.state, ' this . state');
-    console.log(this.props, ' her er thist .props');
+    console.log(this.state.fullPrice);
+    console.log(this.props.selectedCoin);
+    console.log(this.state.initialCurrency);
+    console.log(this.state.priceFull, ' her er þettatatatatatatatatats');
     return (
       <CoinInfoWrapper>
         Price:
         <p>
+          {this.state.fullPrice.length === 0 ? (
+            <p> lodaing </p>
+          ) : (
+            <p>{this.state.fullPrice[0][this.state.initialCurrency]}</p>
+          )}
+          {/* {this.state.initialCurrency}
+          {this.props.selectedCoin}
+          {this.state.fullPrice[this.props.selectedCoin]}
           {
             this.state.fullPrice[this.props.selectedCoin][
               this.state.initialCurrency
             ]
-          }
+          } */}
         </p>
         <select value={this.state.value} onChange={this.handleChange}>
           <option value="USD">USD $</option>
