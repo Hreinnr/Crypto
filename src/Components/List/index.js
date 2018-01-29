@@ -28,18 +28,14 @@ class List extends Component {
     };
   }
 
-  renderCoinInfo(name) {
-    this.props.onSelectCoin(name);
+  renderCoinInfo(coin) {
+    this.props.onSelectCoin(coin);
   }
 
   renderList(coins) {
-    console.log(coins, ' her er kallað í renderList');
     return coins.map(coin => {
       return (
-        <CoinsWrapper
-          key={coin.Id}
-          onClick={() => this.renderCoinInfo(coin.Name)}
-        >
+        <CoinsWrapper key={coin.Id} onClick={() => this.renderCoinInfo(coin)}>
           <img
             alt="CoinImage"
             src={'https://www.cryptocompare.com/' + coin.ImageUrl}
@@ -52,7 +48,6 @@ class List extends Component {
 
   render() {
     return (
-      // <div>{this.props.coins === {} ?( this.renderList(this.props.coins))}</div>
       <div>
         {this.props.coins.length > 0 ? (
           this.renderList(this.props.coins)
