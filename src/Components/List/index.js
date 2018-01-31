@@ -47,6 +47,7 @@ class List extends Component {
   }
 
   render() {
+    console.log(this.props, ' hér er props í list');
     return (
       <div>
         {this.props.coins.length > 0 ? (

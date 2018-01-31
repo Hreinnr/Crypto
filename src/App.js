@@ -13,7 +13,7 @@ let lightTheme = {
 
 let darkTheme = {
   text: 'white',
-  background: 'black',
+  background: '#353a42',
 };
 
 class App extends Component {

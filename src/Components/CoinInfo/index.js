@@ -11,13 +11,82 @@ const CoinInfoWrapper = styled.div`
   margin: auto;
   border: 2px solid black;
   height: 600px;
-  width: 800px;
+  width: 1080px;
+  position: inherit;
   background-color: ${props => props.theme.background};
   color: ${props => props.theme.text};
-  img{
-    height: 100px;
-    width: 100px;
+  .ImageWrapper{
+    position: absolute;
+    border: 1px solid black;
+    box-shadow: 0 4px 10px 0 rgba(50, 70, 90, 0.1);
+    padding: 5px 5px 5px 5px;
+    margin: 25px 5px 5px 98px;
+    font-size: 25px;
+    font-weight: bold;
+    width: 200px;
+    height: 200px;
+    p{
+      margin 5px;
     }
+    img{
+      height: 150px;
+      width: 150px;
+    }
+  }
+  .PriceWrapper{
+    border: 1px solid black;
+    height: 75px;
+    width: 550px;
+    margin-left: 313px;
+    margin-top: 160px;
+    p{
+      position: absolute;
+      font-size: 50px;
+      font-weight: bold;
+      margin: 0;
+      width: 250px;
+    }
+    div{
+      position: absolute;
+      margin-left: 250px;
+      height: 60px;
+      width: 90px;
+      font-size: 25px;
+      img{
+        height: 25px;
+        width: 25px;
+      }
+    }
+    select{
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      margin-left: 210px;
+      margin-top: 20px;
+    }
+  }
+  .VoluemWrapper{
+    display: inline-flex;
+    border: 1px solid black;
+    margin-top: 15px;
+    div{
+      p{
+        margin: 0px;
+      }
+      margin: 4px;
+      padding: 10px;
+    }
+    .Bubble{
+      border-radius: 4px;
+      background-color:#cbdbf4;
+      box-shadow: 0 4px 10px 0 rgba(50, 70, 90, 0.1);
+    }
+  }
   }
 `;
 
@@ -76,17 +145,27 @@ class CoinInfo extends Component {
     if (
       this.state.fullPrice[0][this.state.initialCurrency].CHANGEPCT24HOUR > 0
     ) {
+      let precentage =
+        this.state.fullPrice[0][this.state.initialCurrency].CHANGEPCT24HOUR /
+        100;
+      precentage = numeral(precentage).format('0.00%');
+      console.log(precentage);
       return (
         <div>
-          {this.state.fullPrice[0][this.state.initialCurrency].CHANGEPCT24HOUR}
           <img src={green} alt="Green Arrow" />
+          {precentage}
         </div>
       );
     } else {
+      let precentage =
+        this.state.fullPrice[0][this.state.initialCurrency].CHANGEPCT24HOUR /
+        100;
+      precentage = numeral(precentage).format('0.00%');
+      console.log(precentage);
       return (
         <div>
-          {this.state.fullPrice[0][this.state.initialCurrency].CHANGEPCT24HOUR}
           <img src={red} alt="Red Arrow" />
+          {precentage}
         </div>
       );
     }
@@ -99,70 +178,104 @@ class CoinInfo extends Component {
     return dateString;
   }
 
-  renderCurrency() {
-    let money = this.state.fullPrice[0][this.state.initialCurrency].MKTCAP;
-    let string = numeral(money).format('($ 0.00 a)');
-    return string;
-  }
-
-  renderVolume() {
-    // if 0 þá ekki sýna þetta helllo
-    let volume = this.state.fullPrice[0][this.state.initialCurrency]
-      .VOLUME24HOURTO;
-    let string = numeral(volume).format('($ 0.00 a)');
+  renderCurrency(money) {
+    let string = numeral(money).format('(0.00 a)');
+    switch (this.state.initialCurrency) {
+      case 'USD':
+        let usd = '$';
+        string = usd.concat(string);
+        break;
+      case 'EUR':
+        let euro = '€';
+        string = euro.concat(string);
+        break;
+      default:
+    }
     return string;
   }
 
   render() {
-    console.log(this.props, ' her eru props babay');
-    console.log(this.state, ' her er state');
+    console.log(this.state, ' State');
+    console.log(this.props, ' Props');
     return (
       <CoinInfoWrapper>
-        <img
-          src={
-            'https://www.cryptocompare.com/' + this.props.selectedCoin.ImageUrl
-          }
-          alt="Crypto image"
-        />
-        <p> Name - {this.props.selectedCoin.Name}</p>
+        <div className="ImageWrapper">
+          <img
+            src={
+              'https://www.cryptocompare.com/' +
+              this.props.selectedCoin.ImageUrl
+            }
+            alt="Crypto image"
+          />
+          <p>
+            {this.props.selectedCoin.CoinName} / {this.props.selectedCoin.Name}
+          </p>
+        </div>
+        {this.state.fullPrice.length === 0 ? (
+          <p> lodaing </p>
+        ) : (
+          <div className="PriceWrapper">
+            <p>{this.renderPrice()}</p>
+            {this.renderPrecentageChange()}
+            <select value={this.state.value} onChange={this.handleChange}>
+              <option value="USD">USD $</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="CNY">CNY</option>
+            </select>
+          </div>
+        )}
         <div>
           {this.state.fullPrice.length === 0 ? (
             <p> lodaing </p>
           ) : (
-            <div>
-              <p>
-                Price:
-                {this.renderPrice()}
-              </p>
-              <p>
-                Low 24 hour :
-                {this.state.fullPrice[0][this.state.initialCurrency].LOW24HOUR}
-              </p>
-              <p>
-                High 24 hour :
-                {this.state.fullPrice[0][this.state.initialCurrency].HIGH24HOUR}
-              </p>
-              <p>
-                Change precentage 24 hour %
-                {this.renderPrecentageChange()}
-              </p>
-              <p>Time updated: {this.renderTimeUpdated()}</p>
-              <p>
-                Market Cap
-                {this.renderCurrency()}
-              </p>
-              <p>
-                Volume 24 Hour
-                {this.renderVolume()}
-              </p>
+            <div className="VoluemWrapper">
+              <div>
+                <p>Mkt.Cap</p>
+                <div className="Bubble">
+                  {this.renderCurrency(
+                    this.state.fullPrice[0][this.state.initialCurrency].MKTCAP
+                  )}
+                </div>
+              </div>
+              <div>
+                <p>Volume 24Hr</p>
+                <div className="Bubble">
+                  {this.renderCurrency(
+                    this.state.fullPrice[0][this.state.initialCurrency]
+                      .VOLUME24HOURTO
+                  )}
+                </div>
+              </div>
+              <div>
+                <p>Low/High 24H</p>
+                <div className="Bubble">
+                  {
+                    this.state.fullPrice[0][this.state.initialCurrency]
+                      .LOW24HOUR
+                  }
+                  -
+                  {
+                    this.state.fullPrice[0][this.state.initialCurrency]
+                      .HIGH24HOUR
+                  }
+                </div>
+              </div>
+              <div>
+                <p>Open 24H</p>
+                <div className="Bubble">
+                  {
+                    this.state.fullPrice[0][this.state.initialCurrency]
+                      .OPEN24HOUR
+                  }
+                </div>
+              </div>
+              <div>
+                <p>Time updated</p>
+                <div className="Bubble">{this.renderTimeUpdated()}</div>
+              </div>
             </div>
           )}
-          <select value={this.state.value} onChange={this.handleChange}>
-            <option value="USD">USD $</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="CNY">CNY</option>
-          </select>
         </div>
       </CoinInfoWrapper>
     );
