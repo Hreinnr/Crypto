@@ -9,11 +9,11 @@ var numeral = require('numeral');
 
 const CoinInfoWrapper = styled.div`
   margin: auto;
-  border: 2px solid black;
+  border: 1px solid white;
   height: 600px;
   width: 1080px;
   position: inherit;
-  background-color: ${props => props.theme.background};
+  background-color: ${props => props.theme.back};
   color: ${props => props.theme.text};
   .ImageWrapper{
     position: absolute;
@@ -39,16 +39,15 @@ const CoinInfoWrapper = styled.div`
     width: 550px;
     margin-left: 313px;
     margin-top: 160px;
+    display: flex;
+    justify-content: space-evenly;
     p{
-      position: absolute;
       font-size: 50px;
       font-weight: bold;
       margin: 0;
       width: 250px;
     }
     div{
-      position: absolute;
-      margin-left: 250px;
       height: 60px;
       width: 90px;
       font-size: 25px;
@@ -66,7 +65,6 @@ const CoinInfoWrapper = styled.div`
       text-decoration: none;
       display: inline-block;
       font-size: 20px;
-      margin-left: 210px;
       margin-top: 20px;
     }
   }

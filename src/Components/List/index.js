@@ -6,6 +6,9 @@ const TableWrapper = styled.div`
   font-family: Arial;
   border-collapse: collapse;
   width: 100%;
+  table {
+    margin: auto;
+  }
   img {
     height: 45px;
     width: 45px;
@@ -21,7 +24,7 @@ const TableWrapper = styled.div`
     background-color: #f2f2f2;
   }
   tr:hover {
-    background-color: #ddd;
+    background-color: ${props => props.theme.hover};
   }
   th {
     padding-top: 12px;

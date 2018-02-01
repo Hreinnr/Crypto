@@ -14,6 +14,7 @@ let lightTheme = {
   buttonHeader: '#6098f2',
   tableOdd: '#f2f2f2',
   tableOther: 'white',
+  hover: '#ddd',
 };
 
 let darkTheme = {
@@ -23,6 +24,7 @@ let darkTheme = {
   buttonHeader: '#000000',
   tableOdd: '#363638',
   tableOther: '#4f4f4f',
+  hover: 'white',
 };
 
 const AppWrapper = styled.div`
