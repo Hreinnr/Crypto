@@ -2,18 +2,40 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const CoinsWrapper = styled.div`
-  justify-content: center;
-  display: flex;
-  height: 60px;
-  width: 300px;
-  border: 2px solid black;
-  margin: 5px;
-  padding: 5px;
-  font-size: 1.5em;
+const TableWrapper = styled.div`
+  margin-left: 38%;
+  font-family: Arial;
+  border-collapse: collapse;
+  width: 100%;
   img {
-    height: 60px;
-    width: 60px;
+    height: 45px;
+    width: 45px;
+  }
+  td {
+    border: 1px solid #ddd;
+  }
+  th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #ddd;
+  }
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #6098f2;
+    color: white;
+  }
+  .CoinName {
+    width: 200px;
+  }
+  .CoinSymbol {
+    width: 100px;
   }
 `;
 
@@ -25,6 +47,8 @@ class List extends Component {
     super(props);
     this.state = {
       coins: {},
+      start: 0,
+      end: 10,
     };
   }
 
@@ -33,29 +57,80 @@ class List extends Component {
   }
 
   renderList(coins) {
-    return coins.map(coin => {
-      return (
-        <CoinsWrapper key={coin.Id} onClick={() => this.renderCoinInfo(coin)}>
-          <img
-            alt="CoinImage"
-            src={'https://www.cryptocompare.com/' + coin.ImageUrl}
-          />
-          {coin.FullName}
-        </CoinsWrapper>
+    let start = this.state.start;
+    let end = this.state.end;
+    let coinsSlice = coins.slice(start, end);
+    console.log(coinsSlice, ' Hér er sliced coin bitch');
+    return (
+      <table>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Symbol</th>
+        </tr>
+        {coinsSlice.map(coin => {
+          return (
+            <tr key={coin.Id} onClick={() => this.renderCoinInfo(coin)}>
+              <td>
+                <img
+                  alt="CoinImage"
+                  src={'https://www.cryptocompare.com/' + coin.ImageUrl}
+                />
+              </td>
+              <td className="CoinName">{coin.CoinName}</td>
+              <td className="CoinSymbol">{coin.Symbol}</td>
+            </tr>
+          );
+        })}
+      </table>
+    );
+  }
+
+  listBack() {
+    if (this.state.start === 0) {
+      console.log(' her gerist ekkert boooy');
+    } else {
+      let newStart = this.state.start - 10;
+      let newEnd = this.state.end - 10;
+      this.setState(
+        {
+          start: newStart,
+          end: newEnd,
+        },
+        () => this.renderList(this.props.coins)
       );
-    });
+    }
+  }
+
+  listForward() {
+    if (this.state.index === 2110) {
+      console.log(' her gerist ekkert');
+    } else {
+      let newStart = this.state.start + 10;
+      let newEnd = this.state.end + 10;
+      this.setState(
+        {
+          start: newStart,
+          end: newEnd,
+        },
+        () => this.renderList(this.props.coins)
+      );
+    }
   }
 
   render() {
     console.log(this.props, ' hér er props í list');
+    console.log(this.state, ' hér er state i list');
     return (
-      <div>
+      <TableWrapper>
         {this.props.coins.length > 0 ? (
           this.renderList(this.props.coins)
         ) : (
           <p>Loading</p>
         )}
-      </div>
+        <button onClick={() => this.listBack()}>Back</button>
+        <button onClick={() => this.listForward()}>Forward</button>
+      </TableWrapper>
     );
   }
 }
