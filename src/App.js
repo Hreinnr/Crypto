@@ -30,6 +30,7 @@ let darkTheme = {
 const AppWrapper = styled.div`
   text-align: center;
   background-color: ${props => props.theme.back};
+  height: 900px;
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
     height: 80px;
@@ -42,6 +43,23 @@ const AppWrapper = styled.div`
     color: white;
     display: flex;
     justify-content: center;
+    div {
+      p {
+        margin-top: 15px;
+        margin-bottom: 0px;
+      }
+      button {
+        background-color: #4caf50; /* Green */
+        border: none;
+        color: white;
+        margin-right: 5px;
+        padding: 4px 8px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
+    }
   }
 
   .App-title {
@@ -102,21 +120,21 @@ class App extends Component {
     return (
       <ThemeProvider theme={this.state.theme}>
         <AppWrapper>
-          <button onClick={() => this.changeTheme(true)}>
-            Set light Theme
-          </button>
-          <button onClick={() => this.changeTheme(false)}>
-            Set dark Theme
-          </button>
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Crypto</h1>
+            <div>
+              <p>Dark Mode</p>
+              <button onClick={() => this.changeTheme(true)}>Off</button>
+              <button onClick={() => this.changeTheme(false)}>On</button>
+            </div>
           </header>
           {this.state.coins !== {} &&
             this.state.selectedCoin !== '' && (
               <CoinInfo
                 coins={this.state.coins}
                 selectedCoin={this.state.selectedCoin}
+                back={() => this.setState({ selectedCoin: '' })}
               />
             )}
           {this.state.coins !== {} &&

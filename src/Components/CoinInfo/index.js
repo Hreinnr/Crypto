@@ -65,7 +65,7 @@ const CoinInfoWrapper = styled.div`
       text-decoration: none;
       display: inline-block;
       font-size: 20px;
-      margin-top: 20px;
+      margin: 20px;
     }
   }
   .VoluemWrapper{
@@ -210,6 +210,7 @@ class CoinInfo extends Component {
     console.log(this.props, ' Props');
     return (
       <CoinInfoWrapper>
+        <button onClick={() => this.props.back()}>Back</button>
         <div className="ImageWrapper">
           <img
             src={

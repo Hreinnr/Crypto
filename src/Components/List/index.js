@@ -6,6 +6,7 @@ const TableWrapper = styled.div`
   font-family: Arial;
   border-collapse: collapse;
   width: 100%;
+  height: 780px;
   table {
     margin: auto;
   }
