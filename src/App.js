@@ -9,12 +9,20 @@ const cc = require('cryptocompare');
 let lightTheme = {
   text: 'black',
   background: 'white',
+  buttonHeader: '#6098f2',
+  tableOdd: '#f2f2f2',
+  tableOther: 'white',
 };
 
 let darkTheme = {
   text: 'white',
   background: '#353a42',
+  buttonHeader: '#000000',
+  tableOdd: '#363638',
+  tableOther: '#4f4f4f',
 };
+
+const AppWrapper = styled.div``;
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +33,7 @@ class App extends Component {
       theme: lightTheme,
     };
   }
+
   componentWillMount() {
     cc
       .coinList()

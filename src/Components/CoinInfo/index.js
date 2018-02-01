@@ -26,7 +26,7 @@ const CoinInfoWrapper = styled.div`
     width: 200px;
     height: 200px;
     p{
-      margin 5px;
+      margin 0px;
     }
     img{
       height: 150px;
@@ -58,7 +58,7 @@ const CoinInfoWrapper = styled.div`
       }
     }
     select{
-      background-color: #4CAF50;
+      background-color: #6098f2;
       border: none;
       color: white;
       padding: 15px 32px;
@@ -96,7 +96,7 @@ class CoinInfo extends Component {
     console.log(this.props.selectedCoin, ' her er coin mmbllslsvldslsl');
     let coin = this.props.selectedCoin.Name;
     cc
-      .priceFull([coin], ['USD', 'EUR', 'GBP', 'CNY'])
+      .priceFull([coin], ['USD', 'EUR', 'GBP', 'CNY', 'CAD', 'BTC'])
       .then(prices => {
         let coinsInfo = Object.keys(prices).map(key => prices[key]);
         this.setState({
@@ -123,20 +123,11 @@ class CoinInfo extends Component {
     this.changePrice(event.target.value);
   }
 
-  changePrice(currency) {
-    // this.setState({ fullPrice: })
-    // console.log(currency, ' her er þetta dót mayen');
-    // cc
-    //   .priceFull(['BTC'], [currency, 'EUR', 'GBP'])
-    //   .then(prices => {
-    //     console.log(prices, ' Her er prices -----------');
-    //     this.setState({ priceCoin: prices[Object.keys(prices)[0]] });
-    //   })
-    //   .catch(console.error);
-  }
-
   renderPrice() {
     let money = this.state.fullPrice[0][this.state.initialCurrency].PRICE;
+    if (money < 1) {
+      return money;
+    }
     let string = numeral(money).format('$0,0.00');
     return string;
   }
@@ -179,7 +170,12 @@ class CoinInfo extends Component {
   }
 
   renderCurrency(money) {
-    let string = numeral(money).format('(0.00 a)');
+    let string = 0;
+    if (money > 100000) {
+      string = numeral(money).format('(0.00 a)');
+    } else {
+      string = money;
+    }
     switch (this.state.initialCurrency) {
       case 'USD':
         let usd = '$';
@@ -189,10 +185,27 @@ class CoinInfo extends Component {
         let euro = '€';
         string = euro.concat(string);
         break;
+      case 'GBP':
+        let gbp = '£';
+        string = gbp.concat(string);
+        break;
+      case 'CAD':
+        let cad = 'C$';
+        string = cad.concat(string);
+        break;
+      case 'CNY':
+        let cny = '¥';
+        string = cny.concat(string);
+        break;
+      case 'BTC':
+        let btc = 'Ƀ';
+        string = btc.concat(string);
       default:
     }
     return string;
   }
+
+  changePrice(event) {}
 
   render() {
     console.log(this.state, ' State');
@@ -215,13 +228,19 @@ class CoinInfo extends Component {
           <p> lodaing </p>
         ) : (
           <div className="PriceWrapper">
-            <p>{this.renderPrice()}</p>
+            <p>
+              {this.renderCurrency(
+                this.state.fullPrice[0][this.state.initialCurrency].PRICE
+              )}
+            </p>
             {this.renderPrecentageChange()}
             <select value={this.state.value} onChange={this.handleChange}>
               <option value="USD">USD $</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-              <option value="CNY">CNY</option>
+              <option value="EUR">EUR €</option>
+              <option value="GBP">GBP £</option>
+              <option value="CNY">CNY ¥</option>
+              <option value="CAD">CAD C$</option>
+              <option value="BTC">BTC Ƀ</option>
             </select>
           </div>
         )}
@@ -250,24 +269,24 @@ class CoinInfo extends Component {
               <div>
                 <p>Low/High 24H</p>
                 <div className="Bubble">
-                  {
+                  {this.renderCurrency(
                     this.state.fullPrice[0][this.state.initialCurrency]
                       .LOW24HOUR
-                  }
+                  )}
                   -
-                  {
+                  {this.renderCurrency(
                     this.state.fullPrice[0][this.state.initialCurrency]
                       .HIGH24HOUR
-                  }
+                  )}
                 </div>
               </div>
               <div>
                 <p>Open 24H</p>
                 <div className="Bubble">
-                  {
+                  {this.renderCurrency(
                     this.state.fullPrice[0][this.state.initialCurrency]
                       .OPEN24HOUR
-                  }
+                  )}
                 </div>
               </div>
               <div>

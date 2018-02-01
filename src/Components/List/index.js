@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const TableWrapper = styled.div`
-  margin-left: 38%;
   font-family: Arial;
   border-collapse: collapse;
   width: 100%;
@@ -36,6 +35,19 @@ const TableWrapper = styled.div`
   }
   .CoinSymbol {
     width: 100px;
+  }
+  button {
+    background-color: #6098f2;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
   }
 `;
 
@@ -128,8 +140,8 @@ class List extends Component {
         ) : (
           <p>Loading</p>
         )}
-        <button onClick={() => this.listBack()}>Back</button>
-        <button onClick={() => this.listForward()}>Forward</button>
+        <button onClick={() => this.listBack()}>Previous</button>
+        <button onClick={() => this.listForward()}>Next</button>
       </TableWrapper>
     );
   }
