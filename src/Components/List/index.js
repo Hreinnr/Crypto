@@ -27,7 +27,7 @@ const TableWrapper = styled.div`
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #6098f2;
+    background-color: ${props => props.theme.buttonHeader};
     color: white;
   }
   .CoinName {
@@ -37,7 +37,7 @@ const TableWrapper = styled.div`
     width: 100px;
   }
   button {
-    background-color: #6098f2;
+    background-color: ${props => props.theme.buttonHeader};
     border: none;
     border-radius: 4px;
     color: white;

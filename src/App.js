@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import logo from './bitcoin.svg';
-import './App.css';
 import { ThemeProvider } from 'styled-components';
 import List from './Components/List/index.js';
 import CoinInfo from './Components/CoinInfo/index';
+import styled from 'styled-components';
+
 const cc = require('cryptocompare');
 
 let lightTheme = {
+  back: 'white',
   text: 'black',
   background: 'white',
   buttonHeader: '#6098f2',
@@ -15,6 +17,7 @@ let lightTheme = {
 };
 
 let darkTheme = {
+  back: '#727272',
   text: 'white',
   background: '#353a42',
   buttonHeader: '#000000',
@@ -22,7 +25,41 @@ let darkTheme = {
   tableOther: '#4f4f4f',
 };
 
-const AppWrapper = styled.div``;
+const AppWrapper = styled.div`
+  text-align: center;
+  background-color: ${props => props.theme.back};
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+  }
+
+  .App-header {
+    background-color: ${props => props.theme.buttonHeader};
+    height: 90px;
+    padding: 5px;
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+
+  .App-title {
+    font-size: 1.5em;
+    margin: 25px;
+  }
+
+  .App-intro {
+    font-size: large;
+  }
+
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
 
 class App extends Component {
   constructor(props) {
@@ -62,7 +99,7 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={this.state.theme}>
-        <div className="App">
+        <AppWrapper>
           <button onClick={() => this.changeTheme(true)}>
             Set light Theme
           </button>
@@ -87,7 +124,7 @@ class App extends Component {
                 coins={this.state.coins}
               />
             )}
-        </div>
+        </AppWrapper>
       </ThemeProvider>
     );
   }
